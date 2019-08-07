@@ -15,14 +15,6 @@
       "year": 2017,
       "color": "red",
       "price": 120000
-    },
-    {
-      "id": 3,
-      "make": "Infiniti",
-      "model": "QX30S",
-      "year": 2017,
-      "color": "black",
-      "price": 42000
     }
   ]
 }
