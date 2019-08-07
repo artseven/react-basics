@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-//custom components uppercase
-const HelloWorld = () => {
-    return React.createElement('h1', null, 'Hello World!');
-};
+import { HelloWorld } from './components/HelloWorld';
+
 
 ReactDOM.render(
     React.createElement(HelloWorld),
