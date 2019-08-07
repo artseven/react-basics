@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { carsPropType} from '../propTypes/cars';
 
-export const CarTable = ({ cars }) => {
+export const CarTable = ({ cars, onDeleteCar: deleteCar }) => {
 
     return <table>
         <thead>
@@ -13,6 +14,7 @@ export const CarTable = ({ cars }) => {
                 <th>Year</th>
                 <th>Color</th>
                 <th>Price</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -26,6 +28,7 @@ export const CarTable = ({ cars }) => {
                 <td>{car.year}</td>
                 <td>{car.color}</td>
                 <td>{car.price}</td>
+                <td><button type="button" onClick={() => deleteCar(car.id)}>Delete</button></td>
             </tr>)}
         </tbody>
     </table>;
@@ -37,5 +40,6 @@ CarTable.defaultProps = {
 };
 
 CarTable.propTypes = {
-    cars: carsPropType
+    cars: carsPropType,
+    onDeleteCar: PropTypes.func.isRequired
 }
