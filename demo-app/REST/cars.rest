@@ -1,0 +1,18 @@
+GET http://localhost:3050/cars HTTP/1.1
+
+###
+
+GET http://localhost:3050/cars/2 HTTP/1.1
+
+###
+POST  http://localhost:3050/cars HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": 3,
+    "make": "Infiniti",
+    "model": "QX30S",
+    "year": 2017,
+    "color": "black",
+    "price": 42000
+}

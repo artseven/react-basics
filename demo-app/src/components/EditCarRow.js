@@ -2,8 +2,6 @@ import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { carPropType } from '../propTypes/cars';
-import { useForm } from '../hooks/useForm';
-import { useDefaultInputFocus } from '../hooks/useDefaultInputFocus';
 
 export class EditCarRow extends Component {
 
@@ -38,7 +36,6 @@ export class EditCarRow extends Component {
     };
 
     
-
     saveCar() {
         this.props.onSaveCar({
             ...this.state,
@@ -62,8 +59,6 @@ export class EditCarRow extends Component {
 
     }
 }
-
-
 
 EditCarRow.propTypes = {
     car: carPropType.isRequired,
