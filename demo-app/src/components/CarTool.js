@@ -1,7 +1,12 @@
 import React, { useState, useCallback, useEffect } from 'react';
 
 import { useDefaultInputFocus } from '../hooks/useDefaultInputFocus';
-import { getAllCars } from '../services/cars';
+import { 
+    getAllCars as dbGetAllCars, 
+    createCar as dbCreateCar, 
+    replaceCar as dbReplaceCar, 
+    deleteCar as dbDeleteCar 
+} from '../services/cars';
 
 import { ToolHeader } from './ToolHeader';
 import { CarTable } from './CarTable';
@@ -16,9 +21,13 @@ export const CarTool = () => {
 
     const defaultInputRef = useDefaultInputFocus();
 
-    useEffect(() => {
-        getAllCars().then(cars => setCars(cars));
+    const refreshCars = useCallback(() => {
+        dbGetAllCars().then(cars => setCars(cars));
     }, []);
+
+    useEffect(() => {
+        refreshCars();
+    }, [ refreshCars ]);
 
     const init = useCallback(() => {
         setEditCarId(-1);
@@ -28,33 +37,29 @@ export const CarTool = () => {
     }, [ defaultInputRef ]);
 
     const addCar = useCallback((car) => {
-        
-        setCars(cars.concat({
-            ...car,
-            //creating unique id that will use highest number id + 1
-            id: Math.max(...cars.map(c => c.id)) + 1
-        }));
+
+        dbCreateCar(car)
+            .then(refreshCars);
         init();
 
-    }, [ cars, init ]);
+    }, [ refreshCars, init ]);
 
     const replaceCar = useCallback((car) => {
-        const newCars = cars.concat();
-        const carIndex = newCars.findIndex(c => c.id === car.id);
-        newCars[carIndex] = car;
-        setCars(newCars);
+        dbReplaceCar(car)
+            .then(refreshCars);
         init();
-    }, [ cars, init]);
+
+    }, [ refreshCars, init]);
     
     const cancelCar = useCallback(() => {
         init();
     }, [init]);
 
     const deleteCar = useCallback(carId => {
-        //produces new array that adds all the cars which id doesn't match
-        setCars(cars.filter(car => car.id !== carId ));
+        dbDeleteCar(carId)
+            .then(refreshCars);
         init();
-    }, [ cars, init ]);
+    }, [ refreshCars, init ]);
 
     return <>
         <ToolHeader headerText="Car Tool" />
