@@ -1,7 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export const CarTool = (props) => {
-
+    //array destructuring syntax
+    //unpacking values from arrays or properties from objects 
+    //into distinct variables
+    //actual state data  || function to update data and re-render
+    const [ carForm, setCarForm ] = useState({
+        make: '',
+        model: '',
+        year: 1900,
+        color: '',
+        price: 0,
+    });//initial state data
 
     return <>
         <header>
@@ -29,5 +39,27 @@ export const CarTool = (props) => {
                 </tr>)}
             </tbody>
         </table>
+        <form>
+            <div>
+                <label htmlFor="make-input">Make:</label>
+                <input type="text" id="make-input"></input>
+            </div>
+            <div>
+                <label htmlFor="model-input">Model:</label>
+                <input type="text" id="model-input"></input>
+            </div>
+            <div>
+                <label htmlFor="year-input">Year:</label>
+                <input type="text" id="year-input"></input>
+            </div>
+            <div>
+                <label htmlFor="color-input">Color:</label>
+                <input type="text" id="color-input"></input>
+            </div>
+            <div>
+                <label htmlFor="price-input">Price:</label>
+                <input type="text" id="price-input"></input>
+            </div>
+        </form>
     </>;
 };
