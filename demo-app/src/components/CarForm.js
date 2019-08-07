@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { memo, forwardRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { useForm } from '../hooks/useForm';
 
-export const CarForm = ({ onSubmitCar, buttonText }) => {
+export const CarForm = memo(forwardRef(({ onSubmitCar, buttonText }, ref) => {
+
+    console.log('rendering car form');
     //array destructuring syntax
     //unpacking values from arrays or properties from objects 
     //into distinct variables
@@ -40,7 +42,7 @@ export const CarForm = ({ onSubmitCar, buttonText }) => {
     return <form>
         <div>
             <label htmlFor="make-input">Make:</label>
-            <input type="text" id="make-input" name="make"
+            <input type="text" id="make-input" name="make" ref={ref}
             value={carForm.make} onChange={change}></input>
         </div>
         <div>
@@ -65,7 +67,7 @@ export const CarForm = ({ onSubmitCar, buttonText }) => {
         </div>
         <button type="button" onClick={submitCar}>{buttonText}</button>
     </form>
-};
+}));
 
 CarForm.defaultProps = {
     buttonText: 'Submit Car',
