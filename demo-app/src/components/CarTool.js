@@ -1,19 +1,24 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 
 import { useDefaultInputFocus } from '../hooks/useDefaultInputFocus';
+import { getAllCars } from '../services/cars';
 
 import { ToolHeader } from './ToolHeader';
 import { CarTable } from './CarTable';
 import { CarForm } from './CarForm';
 
 //props destructured to use just cars variable
-export const CarTool = ({ cars: initialCars }) => {
+export const CarTool = () => {
 
     //creating shallow copy of the array
-    const [ cars, setCars ] = useState(initialCars.concat())
+    const [ cars, setCars ] = useState([]);
     const [ editCarId, setEditCarId ] = useState(-1);
 
     const defaultInputRef = useDefaultInputFocus();
+
+    useEffect(() => {
+        getAllCars().then(cars => setCars(cars));
+    }, []);
 
     const init = useCallback(() => {
         setEditCarId(-1);
