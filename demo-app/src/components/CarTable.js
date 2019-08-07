@@ -2,9 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { carsPropType} from '../propTypes/cars';
+
+import { EditCarRow } from './EditCarRow';
 import { ViewCarRow } from './ViewCarRow';
 
-export const CarTable = ({ cars, onDeleteCar: deleteCar }) => {
+
+export const CarTable = ({ 
+    cars, editCarId,
+    onEditCar: editCar,
+    onDeleteCar: deleteCar,
+    onSaveCar: saveCar,
+    onCancelCar: cancelCar,
+}) => {
 
     return <table>
         <thead>
@@ -22,17 +31,24 @@ export const CarTable = ({ cars, onDeleteCar: deleteCar }) => {
             {cars.length === 0 && <tr>
                 <td colSpan="6">There are no cars.</td>
             </tr>}
-            {cars.map(car => <ViewCarRow key={car.id} car={car} onDeleteCar={deleteCar} />)}
+            {cars.map(car => car.id === editCarId 
+                ? <EditCarRow key={car.id} car={car} onSaveCar={saveCar} onCancelCar={cancelCar} />
+                : <ViewCarRow key={car.id} car={car} onEditCar={editCar} onDeleteCar={deleteCar} />)}
         </tbody>
     </table>;
 
 };
 //set default so cars.map doesn't fail when nothing is passed
 CarTable.defaultProps = {
-    cars: []
+    cars: [],
+    editCarId: -1,
 };
 
 CarTable.propTypes = {
     cars: carsPropType,
-    onDeleteCar: PropTypes.func.isRequired
+    editCarId: PropTypes.number,
+
+    onDeleteCar: PropTypes.func.isRequired,
+    onEditCar: PropTypes.func.isRequired,
+    onSaveCar: PropTypes.func.isRequired
 }

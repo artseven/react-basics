@@ -19,14 +19,16 @@ export const CarTool = ({ cars: initialCars }) => {
             //creating unique id that will use highest number id + 1
             id: Math.max(...cars.map(c => c.id)) + 1
         }));
+        setEditCarId(-1);
 
     }
 
     const replaceCar = (car) => {
         const newCars = cars.concat();
-        const carIndex = newCars.findIndex(c => c.i === car.id);
+        const carIndex = newCars.findIndex(c => c.id === car.id);
         newCars[carIndex] = car;
         setCars(newCars);
+        setEditCarId(-1);
     };
     
     const cancelCar = () => {
@@ -36,12 +38,14 @@ export const CarTool = ({ cars: initialCars }) => {
     const deleteCar = carId => {
         //produces new array that adds all the cars which id doesn't match
         setCars(cars.filter(car => car.id !== carId ));
+        setEditCarId(-1);
     }
 
     return <>
         <ToolHeader headerText="Car Tool" />
         <CarTable cars={cars} editCarId = {editCarId}
-         onDeleteCar={deleteCar}/>
+         onEditCar={setEditCarId} onDeleteCar={deleteCar}
+         onSaveCar={replaceCar} onCancelCar={cancelCar}/>
         <CarForm buttonText="Add Car" onSubmitCar={addCar} />
     </>;
 };
