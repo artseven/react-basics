@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+
+import { useForm } from '../hooks/useForm';
 
 export const CarForm = ({ onSubmitCar, buttonText }) => {
     //array destructuring syntax
     //unpacking values from arrays or properties from objects 
     //into distinct variables
     //actual state data  || function to update data and re-render
-    const [ carForm, setCarForm ] = useState({
+    const [ carForm, change, resetCarForm ] = useForm({
         make: '',
         model: '',
         year: 1900,
@@ -14,29 +16,23 @@ export const CarForm = ({ onSubmitCar, buttonText }) => {
         price: 0,
     });//initial state data
 
-    //using target variable on the event object
-    //to avoid referencing e.target
-    const change = ({ target }) => {
-        setCarForm({
-            //spread operator
-            ...carForm,
-            //looks into name on the input field
-            //ternary operator to check field type
-            //to make sure number field type returns number and not a string
-            [ target.name ]: target.type === 'number' ? Number(target.value) : target.value,            
-        })
-    }
+    // //using target variable on the event object
+    // //to avoid referencing e.target
+    // const change = ({ target }) => {
+    //     setCarForm({
+    //         //spread operator
+    //         ...carForm,
+    //         //looks into name on the input field
+    //         //ternary operator to check field type
+    //         //to make sure number field type returns number and not a string
+    //         [ target.name ]: target.type === 'number' ? Number(target.value) : target.value,            
+    //     })
+    // }
 
     const submitCar  = () => {
         onSubmitCar({ ...carForm });
         //re-initializing the form
-        setCarForm({
-            make: '',
-            model: '',
-            year: 1900,
-            color: '',
-            price: 0
-        });
+        resetCarForm();
     };
 
 

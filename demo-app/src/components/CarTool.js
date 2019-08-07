@@ -9,6 +9,7 @@ export const CarTool = ({ cars: initialCars }) => {
 
     //creating shallow copy of the array
     const [ cars, setCars ] = useState(initialCars.concat())
+    const [ editCarId, setEditCarId ] = useState(-1);
 
 
     const addCar = (car) => {
@@ -21,6 +22,17 @@ export const CarTool = ({ cars: initialCars }) => {
 
     }
 
+    const replaceCar = (car) => {
+        const newCars = cars.concat();
+        const carIndex = newCars.findIndex(c => c.i === car.id);
+        newCars[carIndex] = car;
+        setCars(newCars);
+    };
+    
+    const cancelCar = () => {
+        setEditCarId(-1);
+    }
+
     const deleteCar = carId => {
         //produces new array that adds all the cars which id doesn't match
         setCars(cars.filter(car => car.id !== carId ));
@@ -28,7 +40,8 @@ export const CarTool = ({ cars: initialCars }) => {
 
     return <>
         <ToolHeader headerText="Car Tool" />
-        <CarTable cars={cars} onDeleteCar={deleteCar}/>
+        <CarTable cars={cars} editCarId = {editCarId}
+         onDeleteCar={deleteCar}/>
         <CarForm buttonText="Add Car" onSubmitCar={addCar} />
     </>;
 };

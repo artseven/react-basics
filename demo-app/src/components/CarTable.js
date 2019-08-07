@@ -10,11 +10,11 @@ export const CarTable = ({ cars, onDeleteCar: deleteCar }) => {
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Make</th>
-                <th>Model</th>
-                <th>Year</th>
-                <th>Color</th>
-                <th>Price</th>
+                <th><label htmlFor="edit-make-input"></label>Make</th>
+                <th><label htmlFor="edit-model-input"></label>Model</th>
+                <th><label htmlFor="edit-year-input"></label>Year</th>
+                <th><label htmlFor="edit-color-input"></label>Color</th>
+                <th><label htmlFor="edit-price-input"></label>Price</th>
                 <th>Actions</th>
             </tr>
         </thead>
