@@ -1,40 +1,66 @@
-import React from 'react';
+import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { carPropType } from '../propTypes/cars';
 import { useForm } from '../hooks/useForm';
 import { useDefaultInputFocus } from '../hooks/useDefaultInputFocus';
 
-export const EditCarRow = ({
-    car,
-    onSaveCar,
-    onCancelCar: cancelCar
-}) => {
+export class EditCarRow extends Component {
 
-    const [ carForm, change ] = useForm({ ...car });
+    constructor(props) {
+        super(props);
 
-    const defaultInputRef = useDefaultInputFocus();
+        this.state = {
+            ...props.car
+        };
 
-    const saveCar = () => {
-        onSaveCar({
-            ...carForm,
-            id: car.id,
+        this.defaultInputRef = createRef();
+
+        this.change = this.change.bind(this);
+    }
+
+    componentDidMount() {
+        if (this.defaultInputRef.current) {
+            this.defaultInputRef.current.focus();
+        }
+    }
+
+    change({ target }) {
+        this.setState({
+            //looks into name on the input field
+            //ternary operator to check field type
+            //to make sure number field type returns number and not a string
+            [ target.name ]: target.type === 'number' ? Number(target.value) : target.value,            
         });
     };
 
-    return  <tr>
-        <td>{car.id}</td>
-        <td><input type="text" id="edit-make-input" name="make" value={carForm.make} onChange={change} ref={defaultInputRef}/></td>
-        <td><input type="text" id="edit-model-input" name="model" value={carForm.model} onChange={change} /></td>
-        <td><input type="number" id="edit-year-input" name="year" value={carForm.year} onChange={change} /></td>
-        <td><input type="text" id="edit-color-input" name="color" value={carForm.color} onChange={change} /></td>
-        <td><input type="number" id="edit-price-input" name="price" value={carForm.price} onChange={change} /></td>
+    
+
+    saveCar() {
+        this.props.onSaveCar({
+            ...this.state,
+            id: this.props.car.id,
+        });
+    }
+
+    render() {
+        return <tr>
+        <td>{this.props.car.id}</td>
+        <td><input type="text" id="edit-make-input" name="make" value={this.state.make} onChange={this.change} ref={this.defaultInputRef}/></td>
+        <td><input type="text" id="edit-model-input" name="model" value={this.state.model} onChange={this.change} /></td>
+        <td><input type="number" id="edit-year-input" name="year" value={this.state.year} onChange={this.change} /></td>
+        <td><input type="text" id="edit-color-input" name="color" value={this.state.color} onChange={this.change} /></td>
+        <td><input type="number" id="edit-price-input" name="price" value={this.state.price} onChange={this.change} /></td>
         <td>
-            <button type="button" onClick={() => saveCar(car.id)}>Save</button>
-            <button type="button" onClick={() => cancelCar(car.id)}>Cancel</button>
+            <button type="button" onClick={this.props.onSaveCar}>Save</button>
+            <button type="button" onClick={this.props.onCancelCar}>Cancel</button>
         </td>
     </tr>;
-};
+
+    }
+}
+
+
 
 EditCarRow.propTypes = {
     car: carPropType.isRequired,
