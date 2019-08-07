@@ -17,6 +17,9 @@ export class EditCarRow extends Component {
         this.defaultInputRef = createRef();
 
         this.change = this.change.bind(this);
+        this.saveCar = this.saveCar.bind(this);
+
+        console.dir(this);
     }
 
     componentDidMount() {
